@@ -44,7 +44,15 @@ public class Product {
 	}
 	@When("user clicks on products suboption")
 	public void user_clicks_on_products_suboption() {
-		driver.findElement(By.xpath("/html/body/div/nav/ul/li[3]/ul/li[3]/a")).click();	
+		WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(30));
+		WebElement  products= 
+				wait.until(ExpectedConditions.elementToBeClickable
+						(By.xpath("/html/body/div/nav/ul/li[3]/ul/li[3]/a")));
+
+		
+		products.click();
+		
+		
 		System.out.println("user clicks on products suboption");	
 	}
 	@When("user clicks on Add product")
@@ -76,7 +84,7 @@ public class Product {
 	}
 	@When("User enters Regural price")
 	public void user_enters_regural_price() {
-	driver.findElement(By.name("regural_price")).sendKeys("15000");
+	driver.findElement(By.name("regular_price")).sendKeys("15000");
 	System.out.println("User entered regural price");
 	}
 	@When("User enters Sale price")
@@ -112,8 +120,14 @@ public class Product {
 	System.out.println("User entered Product Short Description");
 }
 	
-	//add photo
-	
+	//adding photo - you must change the path of the image file
+	@When("user upload image of product")
+	public void user_upload_image_of_product() {
+		WebElement upload_file = driver.findElement(By.id("images[]"));
+		
+			upload_file.sendKeys("C:/Users/Win-10/Pictures/Saved Pictures/Bundles.jpg");
+
+	}
 	@When("clicks on submit button")
 	public void clicks_on_submit_button() {
 	driver.findElement(By.xpath("/html/body/div/div/div/div/div[2]/div[2]/div/div/form/input[3]")).click();
