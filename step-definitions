@@ -1,21 +1,31 @@
 package StepDefinitions;
+import static org.junit.Assert.assertEquals;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import static org.junit.Assert.*;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.By;
+import io.cucumber.messages.types.Duration;
+
 
 public class Product {
 	private static WebDriver driver=null;
 	@Given("user is on login page")
 	public void user_is_on_login_page() {
-	System.setProperty("webdriver.chrome.driver", "C:\\\\chromedriver_win32\\\\chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", "C:\\chromedriver_win32\\chromedriver.exe");
 	driver=new ChromeDriver();
 	driver.get("http://app.store.ellcart.com/");
 	System.out.println("Login page opened");
+	
 	}
 	@When("^User enters \"(.*)\" and \"(.*)\"$")
 	public void user_enters_username_and_password(String username, String password) {
@@ -34,8 +44,10 @@ public class Product {
 	public void user_is_navigated_to_home_page() {
 	String expectedText="Categories";
 	String actualText= driver.findElement(By.xpath("/html/body/div/div/div/div/div[2]/div/div[1]/div/div[1]/div/div[1]/h2")).getText(); 
+	driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
 	assertEquals("Login Successful",expectedText,actualText);
 	System.out.println("Home Page Opened");
+
 	}
 	@When("user clicks on products dropdown")
 	public void user_clicks_on_products_dropdown() {
@@ -44,62 +56,54 @@ public class Product {
 	}
 	@When("user clicks on products suboption")
 	public void user_clicks_on_products_suboption() {
-	
-	
-	WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(30));
-		WebElement  products= 
-				wait.until(ExpectedConditions.elementToBeClickable
-						(By.xpath("/html/body/div/nav/ul/li[3]/ul/li[3]/a")));
 
-		
-		products.click();
-	
-	
-	
-		
+		driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+		driver.findElement(By.xpath("/html/body/div/nav/ul/li[3]/ul/li[3]/a")).click();	
 		System.out.println("user clicks on products suboption");	
 	}
-	@When("user clicks on Add product")
+	@When("user clicks on Add Product")
 	public void user_clicks_on_add_product() {
-	
-		driver.findElement(By.xpath("/html/body/div/div/div/div/div[2]/div[1]/div/div[2]/button")).click();	
+		driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+		System.out.println("checking");
+		driver.findElement(By.xpath("/html/body/div/div/div/div/div[2]/div[1]/div[1]/div/button")).click();	
 		System.out.println("user clicks on Add product");
 	}
-	@When("user clicks on Add ")
+	@When("user clicks on Add")
 	public void user_clicks_on_add() {
+		driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
 		driver.findElement(By.xpath("/html/body/div/div/div/div/div[2]/a[1]")).click();	
-		System.out.println("user clicks on Add ");
+		System.out.println("user clicks on Add");
 	}
-	@When("user clicks on select ecommerce platform ")
+	@When("user clicks on Select Ecommerce Platform")
 	public void user_clicks_on_select_ecommerce_platform() {
 		Select Selectecommerceplatform= new Select(driver.findElement(By.id("ecommerce_platform")));
         Selectecommerceplatform.selectByVisibleText("Woocommerce");	
 		System.out.println("user clicks select ecommerce platform ");
 }
-	@When("user clicks on select Category")
+	@When("user clicks on Select Category")
 	public void user_clicks_on_select_category() {
 		Select Selectcategory= new Select(driver.findElement(By.name("category_id")));
         Selectcategory.selectByVisibleText("foundation");	
 		System.out.println("user clicks select category ");
 }
-	@When("User enters Product Name")
+	@When("user enters Product Name")
 	public void user_enters_product_name() {
 	driver.findElement(By.name("name")).sendKeys("Nars");
 	System.out.println("User entered product name");
 	}
-	@When("User enters Regural price")
-	public void user_enters_regural_price() {
+	@When("user enters Regural price")
+	public void user_enters_regular_price() {
 	driver.findElement(By.name("regular_price")).sendKeys("15000");
 	System.out.println("User entered regural price");
 	}
-	@When("User enters Sale price")
+	@When("user enters Sale Price")
 	public void user_enters_sale_price() {
 	driver.findElement(By.name("sale_price")).sendKeys("12000");
 	System.out.println("User entered sale price");
 }
-	@When("User enters Product SKU")
+	@When("user enters Product SKU")
 	public void user_enters_product_sku() {
-	driver.findElement(By.name("sku")).sendKeys("Nars1");
+	driver.findElement(By.name("sku")).sendKeys("Nars144");
 	System.out.println("User entered Product SKU");
 }
 	@When("user clicks on Product Stock Status")
@@ -109,37 +113,44 @@ public class Product {
 		System.out.println("user clicks on Product Stock Status");
 }
 	
-	@When("User enters Product Weight")
+	@When("user enters Product Weight")
 	public void user_enters_product_weight() {
 	driver.findElement(By.name("weight")).sendKeys("1");
 	System.out.println("User entered Product Weight");
 }
-	@When("User enters Product description")
+	@When("user enters Product Description")
 	public void user_enters_product_description() {
 	driver.findElement(By.name("description")).sendKeys("Light Reflecting Foundation");
 	System.out.println("User entered Product Description");
 }
-	@When("User enters Product Short description")
+	@When("user enters Product Short Description")
 	public void user_enters_product_short_description() {
-	driver.findElement(By.name("short_description")).sendKeys("Advanced Skincare Foundation");
+	driver.findElement(By.name("short_description")).sendKeys("Advanced Skincare Foundation Glowing Flawless");
 	System.out.println("User entered Product Short Description");
 }
 	
-	//adding photo
 	
 	@When("user upload image of product")
 	public void user_upload_image_of_product() {
 		WebElement upload_file = driver.findElement(By.id("images[]"));
-		
-			upload_file.sendKeys("C:/Users/Win-10/Pictures/Saved Pictures/Bundles.jpg");
+
+			upload_file.sendKeys("C:\\Users\\natal\\Downloads\\narsf.png");
 
 	}
 	
-	@When("clicks on submit button")
+	@When("user clicks on Submit button")
 	public void clicks_on_submit_button() {
 	driver.findElement(By.xpath("/html/body/div/div/div/div/div[2]/div[2]/div/div/form/input[3]")).click();
 	driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
 	System.out.println("User Clicks submit button");
 }
+	@Then("product saved successfully")
+	public void product_saved_successfully() {
+		
+		String expectedText="Product Saved Successfully";
+		String actualText= driver.findElement(By.xpath("/html/body/div/div/div/div/div[2]/div[1]/ul/p")).getText(); 
+		assertEquals("Saved Successfully",expectedText,actualText);
+  
+	}
 }
 	
